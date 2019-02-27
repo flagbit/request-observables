@@ -1,0 +1,14 @@
+{
+  "name": "@flagbit/request-observables",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^11.9.5",
+    "rxjs": "^6.4.0",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/tsc"
+  }
+}
