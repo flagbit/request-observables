@@ -8,6 +8,10 @@
     "rxjs": "^6.4.0",
     "typescript": "^3.3.3333"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "node_modules/.bin/tsc"
   }
