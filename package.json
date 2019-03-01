@@ -1,6 +1,6 @@
 {
   "name": "@flagbit/request-observables",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/request-observables.js",
   "license": "MIT",
   "dependencies": {
