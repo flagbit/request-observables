@@ -14,6 +14,15 @@ export const defaultHeaders = {
   'content-type': 'application/json'
 };
 
+export interface RequestArgsParams {
+  host: string;
+  path: string;
+  method: string;
+  data?: string;
+  port?: number | string;
+  customHeaders?: any;
+}
+
 /**
  *
  * @param host
@@ -23,27 +32,22 @@ export const defaultHeaders = {
  * @param customHeaders
  */
 export function generateRequestArgs(
-  host: string,
-  path: string,
-  method: string,
-  data?: string,
-  port?: number,
-  customHeaders?: any
+  config: RequestArgsParams
 ): http.ClientRequestArgs {
-  const headers = customHeaders || defaultHeaders;
-  if (data) {
-    headers['content-length'] = Buffer.byteLength(data);
+  const headers = config.customHeaders || defaultHeaders;
+  if (config.data) {
+    headers['content-length'] = Buffer.byteLength(config.data);
   }
 
   const clientRequestArgs: http.ClientRequestArgs = {
-    host: host,
-    path: path,
-    method: method,
+    host: config.host,
+    path: config.path,
+    method: config.method,
     headers: headers
   };
 
-  if (port) {
-    clientRequestArgs.port = port;
+  if (config.port) {
+    clientRequestArgs.port = config.port;
   }
 
   return clientRequestArgs;
@@ -72,13 +76,24 @@ export function request(
       data = JSON.stringify(data);
     }
 
-    const requestArguments = generateRequestArgs(
-      parsedUrl.host,
-      parsedUrl.path,
-      method,
-      data,
-      headers
-    );
+    const argsConfig: RequestArgsParams = {
+      host: parsedUrl.host,
+      path: parsedUrl.path,
+      method: method
+    };
+
+    if (data) {
+      argsConfig.data = data;
+    }
+
+    if (headers) {
+      argsConfig.customHeaders = headers;
+    }
+
+    if (parsedUrl.port) {
+      argsConfig.port = parsedUrl.port;
+    }
+    const requestArguments = generateRequestArgs(argsConfig);
 
     const req = libraryMap[parsedUrl.protocol].request(
       requestArguments,
