@@ -27,6 +27,7 @@ export function generateRequestArgs(
   path: string,
   method: string,
   data?: string,
+  port?: number,
   customHeaders?: any
 ): http.ClientRequestArgs {
   const headers = customHeaders || defaultHeaders;
@@ -34,12 +35,16 @@ export function generateRequestArgs(
     headers['content-length'] = Buffer.byteLength(data);
   }
 
-  const clientRequestArgs = {
+  const clientRequestArgs: http.ClientRequestArgs = {
     host: host,
     path: path,
     method: method,
     headers: headers
   };
+
+  if (port) {
+    clientRequestArgs.port = port;
+  }
 
   return clientRequestArgs;
 }
